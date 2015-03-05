@@ -1,0 +1,37 @@
+{
+  "name": "archieml",
+  "version": "0.1.0",
+  "description": "JavaScript parser for the Archie Markup Language (ArchieML)",
+  "homepage": "http://archieml.org",
+  "keywords": [
+    "archie",
+    "markup",
+    "language",
+    "archieml",
+    "aml",
+    "text",
+    "parser"
+  ],
+  "bugs": "https://github.com/newsdev/archieml-js/issues",
+  "author": {
+    "name": "Michael Strickland",
+    "email": "michael.strickland@nytimes.com"
+  },
+  "devDependencies": {
+    "phantomjs": "1.9.11"
+  },
+  "scripts": {
+    "test": "node_modules/phantomjs/bin/phantomjs test/vendor/runner.js test/index.html?noglobals=true"
+  },
+  "repository": {
+    "type": "git",
+    "url" : "http://github.com/newsdev/archieml-js.git"
+  },
+  "main": "archieml.js",
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  ]
+}
