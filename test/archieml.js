@@ -97,6 +97,8 @@
     equal(load('key:value\n\\\\:end\n:end').key, 'value\n\\:end', 'allows escaping initial backslash at the beginning of lines');
     equal(load('key:value\n\\\\\\:end\n:end').key, 'value\n\\\\:end', 'escapes only one initial backslash');
 
+    equal(load('key:value\n\\:end\n\\:ignore\n\\:endskip\n\\:skip\n:end').key, 'value\n:end\n:ignore\n:endskip\n:skip', 'allows escaping multiple lines in a value');
+
     equal(load('key:value\nLorem key2\\:value\n:end').key, 'value\nLorem key2\\:value', "doesn't escape colons after beginning of lines");
   });
 

@@ -177,7 +177,7 @@ function load(input) {
       // If we're appending to a multi-line string, escape special punctuation
       // by using a backslash at the beginning of any line.
       // Note we do not do this processing for the first line of any value.
-      value = value.replace(new RegExp('^(\\s*)\\\\'), "$1");
+      value = value.replace(new RegExp('^(\\s*)\\\\', 'gm'), "$1");
     }
 
     return value;
