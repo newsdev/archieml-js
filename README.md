@@ -55,6 +55,14 @@ You can use a test document to start that's public to everyone. It will ask you 
 
 [`http://127.0.0.1:3000/1JjYD90DyoaBuRYNxa4_nqrHKkgZf1HrUj30i3rTWX1s`](http://127.0.0.1:3000/1JjYD90DyoaBuRYNxa4_nqrHKkgZf1HrUj30i3rTWX1s)
 
+## Tests
+
+There is a full test suite under the `test/` directory. Simply open up `test/index.html` in a web browser to run it.
+
+```
+rspec
+```
+
 ## Changelog
 
 * `0.1.0` - Initial release supporting the first version of the ArchieML spec, published [2015-03-06](http://archieml.org/spec/1.0/CR-20150306.html).
