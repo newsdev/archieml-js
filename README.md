@@ -4,7 +4,7 @@ Parse Archie Markup Language (ArchieML) documents into JavaScript objects.
 
 Read about the ArchieML specification at [archieml.org](http://archieml.org).
 
-The current version is `v0.1.0`.
+The current version is `v0.1.1`.
 
 ## Installation
 
@@ -65,4 +65,5 @@ rspec
 
 ## Changelog
 
+* `0.1.1` - Fixes issue #1, removing comment backslashes.
 * `0.1.0` - Initial release supporting the first version of the ArchieML spec, published [2015-03-06](http://archieml.org/spec/1.0/CR-20150306.html).
