@@ -160,6 +160,8 @@
 
     equal(load('[array]\n*Value\n[]\n[array]\n*Value').array.length, 2, 'arrays that are reopened add to existing array');
     deepEqual(load('[array]\n*Value\n[]\n[array]\nkey:value').array, ["Value"], 'simple arrays that are reopened remain simple');
+
+    equal(load('a.b:complex value\n[a.b]\n*simple value').a.b[0], 'simple value', 'simple ararys overwrite existing keys');
   });
 
   test('complex arrays', function() {
@@ -174,6 +176,8 @@
 
     equal(load('[array]\nkey:value\n[]\n[array]\nkey:value').array.length, 2, 'arrays that are reopened add to existing array');
     deepEqual(load('[array]\nkey:value\n[]\n[array]\n*Value').array, [{"key": "value"}], 'complex arrays that are reopened remain complex');
+
+    equal(load('a.b:complex value\n[a.b]\nkey:value').a.b[0].key, 'value', 'complex ararys overwrite existing keys');
   });
 
   test('inline comments', function() {

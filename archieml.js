@@ -160,6 +160,7 @@ function load(input) {
 
       if (scopeType == '[') {
         array = keyScope[keyBits[keyBits.length - 1]] = keyScope[keyBits[keyBits.length - 1]] || [];
+        if (typeof array == 'string') array = keyScope[keyBits[keyBits.length - 1]] = [];
         // If we're reopening this array, set the arrayType
         if (array.length > 0) arrayType = typeof array[0] === 'string' ? 'simple' : 'complex';
 
