@@ -10,10 +10,10 @@
 // which match patterns for different types of commands in AML.
 function load(input) {
   var nextLine = new RegExp('.*((\r|\n)+)');
-  var startKey = new RegExp('^\\s*([A-Za-z0-9-_\.]+)[ \t\r]*:[ \t\r]*(.*)');
-  var commandKey = new RegExp('^\\s*:[ \t\r]*(endskip|ignore|skip|end)', 'i');
-  var arrayElement = new RegExp('^\\s*\\*[ \t\r]*(.*)');
-  var scopePattern = new RegExp('^\\s*(\\[|\\{)[ \t\r]*([A-Za-z0-9-_\.]*)[ \t\r]*(?:\\]|\\})[ \t\r]*.*?(\n|\r|$)');
+  var startKey = new RegExp('^\\s*([A-Za-z0-9-_\.]+)[ \t\r]*:[ \t\r]*(.*(?:\n|\r|$))');
+  var commandKey = new RegExp('^\\s*:[ \t\r]*(endskip|ignore|skip|end).*?(\n|\r|$)', 'i');
+  var arrayElement = new RegExp('^\\s*\\*[ \t\r]*(.*(?:\n|\r|$))');
+  var scopePattern = new RegExp('^\\s*(\\[|\\{)[ \t\r]*([A-Za-z0-9-_\.]*)[ \t\r]*(?:\\]|\\}).*?(\n|\r|$)');
 
   var data = {},
       scope = data,
@@ -129,8 +129,6 @@ function load(input) {
         isSkipping = false;
         break;
     }
-
-    flushBuffer();
   }
 
   function parseScope(scopeType, scopeKey) {
@@ -226,6 +224,7 @@ function load(input) {
     array = null;
     arrayType = null;
     arrayFirstKey = null;
+    bufferKey = null;
   }
 
   flushBuffer();
