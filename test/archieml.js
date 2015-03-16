@@ -22,8 +22,8 @@
     equal(Object.keys(load('k&ey:value')).length, 0, 'symbols are not allowed in keys');
     equal(load('scope.key:value').scope.key, 'value', 'keys can be nested using dot-notation');
     equal(load('scope.key:value\nscope.otherkey:value').scope.key, 'value', "earlier keys within scopes aren't deleted when using dot-notation");
-    deepEqual(load('scope.level:value\nscope.level.level:value').scope.level.level, 'value', 'the value of key that used to be a parent object should be replaced with a string if necessary');
-    equal(load('scope.level.level:value\nscope.level:value').scope.level, 'value', 'the value of key that used to be a string object should be replaced with an object if necessary');
+    deepEqual(load('scope.level:value\nscope.level.level:value').scope.level.level, 'value', 'the value of key that used to be a string object should be replaced with an object if necessary');
+    equal(load('scope.level.level:value\nscope.level:value').scope.level, 'value', 'the value of key that used to be a parent object should be replaced with a string if necessary');
   });
 
   test('valid values', function() {
