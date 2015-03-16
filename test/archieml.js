@@ -95,7 +95,7 @@
     equal(load('key:value\n\\[[array]]\n:end').key, 'value\n[array]', 'allows escaping [[arrays]] at the beginning of lines');
 
     equal(load('key:value\ntext\n[array]\nmore text\n:end').key, 'value', 'arrays within a multi-line value breaks up the value');
-    equal(load('key:value\ntext\n{array}\nmore text\n:end').key, 'value', 'objects within a multi-line value breaks up the value');
+    equal(load('key:value\ntext\n{scope}\nmore text\n:end').key, 'value', 'objects within a multi-line value breaks up the value');
     equal(load('key:value\ntext\n* value\nmore text\n:end').key, 'value\ntext\n* value\nmore text', 'bullets within a multi-line value do not break up the value');
     equal(load('key:value\ntext\n:skip\n:endskip\nmore text\n:end').key, 'value\ntext\nmore text', 'skips within a multi-line value do not break up the value');
 
@@ -164,7 +164,7 @@
     equal(load('[array]\n*Value1\nword key\\:value\n:end').array[0], "Value1\nword key\\:value", 'does not allow escaping of colons not at the beginning of lines');
 
     equal(load('[array]\n* value\n[array]\nmore text\n:end').array[0], 'value', 'arrays within a multi-line value breaks up the value');
-    equal(load('[array]\n* value\n{array}\nmore text\n:end').array[0], 'value', 'objects within a multi-line value breaks up the value');
+    equal(load('[array]\n* value\n{scope}\nmore text\n:end').array[0], 'value', 'objects within a multi-line value breaks up the value');
     equal(load('[array]\n* value\nkey: value\nmore text\n:end').array[0], 'value\nkey: value\nmore text', 'key/values within a multi-line value do not break up the value');
     equal(load('[array]\n* value\n* value\nmore text\n:end').array[0], 'value', 'bullets within a multi-line value break up the value');
     equal(load('[array]\n* value\n:skip\n:endskip\nmore text\n:end').array[0], 'value\nmore text', 'skips within a multi-line value do not break up the value');
@@ -186,7 +186,7 @@
     equal(load('[array]\nscope.key:value\nkey:value\notherscope.key:value').array.length, 1, 'duplicate keys must match on dot-notation scope');
 
     equal(load('[array]\nkey:value\n[array]\nmore text\n:end').array[0].key, 'value', 'arrays within a multi-line value breaks up the value');
-    equal(load('[array]\nkey:value\n{array}\nmore text\n:end').array[0].key, 'value', 'objects within a multi-line value breaks up the value');
+    equal(load('[array]\nkey:value\n{scope}\nmore text\n:end').array[0].key, 'value', 'objects within a multi-line value breaks up the value');
     equal(load('[array]\nkey:value\nother: value\nmore text\n:end').array[0].key, 'value', 'key/values within a multi-line value break up the value');
     equal(load('[array]\nkey:value\n* value\nmore text\n:end').array[0].key, 'value\n* value\nmore text', 'bullets within a multi-line value do not break up the value');
     equal(load('[array]\nkey:value\n:skip\n:endskip\nmore text\n:end').array[0].key, 'value\nmore text', 'skips within a multi-line value do not break up the value');
