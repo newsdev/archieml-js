@@ -7,7 +7,7 @@
 
   var q = queue(1);
   var tests = {};
-  var shared_dir = '/Users/michael/code/archieml.org/test/1.0/';
+  var shared_dir = 'test/archieml.org/test/1.0/';
 
   var deferWrapper = function(dir, cb) {
     return fs.readFile(dir, function(error, data) {
