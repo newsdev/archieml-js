@@ -91,6 +91,7 @@ function load(input) {
     bufferString = restOfLine;
 
     flushBufferInto(key, {replace: true});
+    bufferKey = key;
   }
 
   function parseArrayElement(value) {
@@ -102,6 +103,7 @@ function load(input) {
     bufferKey = array;
     bufferString = value;
     flushBufferInto(array, {replace: true});
+    bufferKey = array;
   }
 
   function parseCommandKey(command) {
@@ -129,6 +131,8 @@ function load(input) {
         isSkipping = false;
         break;
     }
+
+    flushBuffer();
   }
 
   function parseScope(scopeType, scopeKey) {
@@ -157,10 +161,7 @@ function load(input) {
       }
 
       if (scopeType == '[') {
-        array = keyScope[keyBits[keyBits.length - 1]] = keyScope[keyBits[keyBits.length - 1]] || [];
-        if (typeof array == 'string') array = keyScope[keyBits[keyBits.length - 1]] = [];
-        // If we're reopening this array, set the arrayType
-        if (array.length > 0) arrayType = typeof array[0] === 'string' ? 'simple' : 'complex';
+        array = keyScope[keyBits[keyBits.length - 1]] = [];
 
       } else if (scopeType == '{') {
         scope = keyScope[keyBits[keyBits.length - 1]] = (typeof keyScope[keyBits[keyBits.length - 1]] === 'object') ? keyScope[keyBits[keyBits.length - 1]] : {};
@@ -185,6 +186,7 @@ function load(input) {
   function flushBuffer() {
     var result = bufferString + '';
     bufferString = '';
+    bufferKey = null;
     return result;
   }
 
