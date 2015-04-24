@@ -57,11 +57,7 @@ You can use a test document to start that's public to everyone. It will ask you 
 
 ## Tests
 
-There is a full test suite under the `test/` directory. Simply open up `test/index.html` in a web browser to run it.
-
-```
-rspec
-```
+A full shared test suite is included from the [archieml.org](https://github.com/newsdev/archieml.org) repository, under `/test`. After running `npm install`, run `nodeunit` to execute the tests.
 
 ## Changelog
 
