@@ -120,6 +120,7 @@
     equal(load('{scope.scope}\nkey:value').scope.scope.key, 'value', 'scopes can be nested using dot-notaion');
     equal(Object.keys(load('{scope}\nkey:value\n{}\n{scope}\nother:value').scope).length, 2, 'scopes can be reopened');
     equal(load('{scope.scope}\nkey:value\n{scope.otherscope}key:value').scope.scope.key, 'value', 'scopes do not overwrite existing values');
+    deepEqual(load('key: value\n{key}\nsubkey: subvalue'), {key: {subkey: 'subvalue'}}, 'key can later be overwriten to become a namespace');
 
     equal(load('{scope}\n{}\nkey:value').key, 'value', '{} resets to the global scope');
     equal(load('{scope}\n{  }\nkey:value').key, 'value', 'ignore spaces inside {}');
