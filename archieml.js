@@ -163,7 +163,7 @@ function load(input) {
         if (array.length > 0) arrayType = typeof array[0] === 'string' ? 'simple' : 'complex';
 
       } else if (scopeType == '{') {
-        scope = keyScope[keyBits[keyBits.length - 1]] = keyScope[keyBits[keyBits.length - 1]] || {};
+        scope = keyScope[keyBits[keyBits.length - 1]] = (typeof keyScope[keyBits[keyBits.length - 1]] === 'object') ? keyScope[keyBits[keyBits.length - 1]] : {};
       }
     }
   }
