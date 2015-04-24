@@ -18,15 +18,14 @@ function load(input) {
   var data = {},
       scope = data,
 
+      stack = [],
+      stackScope = undefined,
+
       bufferScope = null,
       bufferKey = null,
       bufferString = '',
 
-      isSkipping = false,
-
-      array = null,
-      arrayType = null,
-      arrayFirstKey = null;
+      isSkipping = false;
 
   while (input) {
     // Inside the input stream loop, the `input` string is trimmed down as matches
@@ -38,12 +37,12 @@ function load(input) {
 
       parseCommandKey(match[1].toLowerCase());
 
-    } else if (!isSkipping && startKey.exec(input) && (!array || arrayType !== 'simple')) {
+    } else if (!isSkipping && startKey.exec(input) && (!stackScope || stackScope.arrayType !== 'simple')) {
       match = startKey.exec(input);
 
       parseStartKey(match[1], match[2] || '');
 
-    } else if (!isSkipping && arrayElement.exec(input) && array && arrayType !== 'complex') {
+    } else if (!isSkipping && arrayElement.exec(input) && stackScope && stackScope.arrayType !== 'complex') {
       match = arrayElement.exec(input);
 
       parseArrayElement(match[1]);
@@ -74,18 +73,7 @@ function load(input) {
     // its value, by calling `flushBuffer`.
     flushBuffer();
 
-    // Special handling for arrays. If this is the start of the array, remember
-    // which key was encountered first. If this is a duplicate encounter of
-    // that key, start a new object.
-    if (array) {
-      // If we're within a simple array, ignore
-      arrayType = arrayType || 'complex';
-      if (arrayType === 'simple') return;
-
-      // arrayFirstKey may be either another key, or null
-      if (arrayFirstKey === null || arrayFirstKey === key) array.push(scope = {});
-      arrayFirstKey = arrayFirstKey || key;
-    }
+    incrementArrayElement(key);
 
     bufferKey = key;
     bufferString = restOfLine;
@@ -97,13 +85,13 @@ function load(input) {
   function parseArrayElement(value) {
     flushBuffer();
 
-    arrayType = arrayType || 'simple';
+    stackScope.arrayType = stackScope.arrayType || 'simple';
 
-    array.push('');
-    bufferKey = array;
+    stackScope.array.push('');
+    bufferKey = stackScope.array;
     bufferString = value;
-    flushBufferInto(array, {replace: true});
-    bufferKey = array;
+    flushBufferInto(stackScope.array, {replace: true});
+    bufferKey = stackScope.array;
   }
 
   function parseCommandKey(command) {
@@ -145,27 +133,73 @@ function load(input) {
     // `scope` changes whenever a scope key is encountered. It also changes
     // within parseStartKey when we start a new object within an array.
     flushBuffer();
-    flushScope();
 
     if (scopeKey == '') {
-      // Reset scope to global data object
-      scope = data;
+
+      if (scopeType === '{') {
+        // Reset scope to global data object
+        scope = data;
+
+      } else if (scopeType === '[') {
+        // Move up a level
+        var lastStackItem = stack.pop();
+        if (lastStackItem) scope = lastStackItem.scope || data;
+        stackScope = stack[stack.length - 1];
+      }
 
     } else if (scopeType === '[' || scopeType === '{') {
       // Drill down into the appropriate scope, in case the key uses
       // dot.notation.
+
+      var nesting = false;
       var keyScope = data;
+
+      if (scopeKey.indexOf('.') == 0) {
+        scopeKey = scopeKey.substring(1);
+        incrementArrayElement(scopeKey);
+        nesting = true;
+        if (stackScope) keyScope = scope;
+      }
+
       var keyBits = scopeKey.split('.');
       for (var i=0; i<keyBits.length - 1; i++) {
         keyScope = keyScope[keyBits[i]] = keyScope[keyBits[i]] || {};
       }
 
       if (scopeType == '[') {
-        array = keyScope[keyBits[keyBits.length - 1]] = [];
+        var stackScopeItem = {
+          array: keyScope[keyBits[keyBits.length - 1]] = [],
+          arrayType: null,
+          arrayFirstKey: null,
+          scope: scope
+        };
+
+        if (nesting) {
+          stack.push(stackScopeItem);
+        } else {
+          stack = [stackScopeItem];
+        }
+        stackScope = stack[stack.length - 1];
 
       } else if (scopeType == '{') {
         scope = keyScope[keyBits[keyBits.length - 1]] = (typeof keyScope[keyBits[keyBits.length - 1]] === 'object') ? keyScope[keyBits[keyBits.length - 1]] : {};
       }
+    }
+  }
+
+  function incrementArrayElement(key) {
+    // Special handling for arrays. If this is the start of the array, remember
+    // which key was encountered first. If this is a duplicate encounter of
+    // that key, start a new object.
+
+    if (stackScope && stackScope.array) {
+      // If we're within a simple array, ignore
+      stackScope.arrayType = stackScope.arrayType || 'complex';
+      if (stackScope.arrayType === 'simple') return;
+
+      // arrayFirstKey may be either another key, or null
+      if (stackScope.arrayFirstKey === null || stackScope.arrayFirstKey === key) stackScope.array.push(scope = {});
+      stackScope.arrayFirstKey = stackScope.arrayFirstKey || key;
     }
   }
 
@@ -220,13 +254,6 @@ function load(input) {
 
       bufferScope[keyBits[keyBits.length - 1]] += value.replace(new RegExp('\\s*$'), '');
     }
-  }
-
-  function flushScope() {
-    array = null;
-    arrayType = null;
-    arrayFirstKey = null;
-    bufferKey = null;
   }
 
   flushBuffer();
