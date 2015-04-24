@@ -43,7 +43,7 @@
             // Brackets in the "result" value need to be replaced with double
             // brackets before parsing, since inline comments aren't currently
             // optional. Match only brackets within quotes.
-            test_aml = test_aml.replace(/^result: (.*)$/m, function(result) {
+            test_aml = test_aml.replace(/^(test|result): (.*)$/gm, function(result) {
               return result.replace(/\[([^\[\]\n\r]*)\]/g, "[[$1]]")
             });
 
