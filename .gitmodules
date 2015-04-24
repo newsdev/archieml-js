@@ -1,3 +1,4 @@
 [submodule "test/archieml.org"]
 	path = test/archieml.org
 	url = https://github.com/newsdev/archieml.org
+	branch = gh-pages
