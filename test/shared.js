@@ -40,20 +40,15 @@
         Object.keys(tests).forEach(function(slug) {
           Object.keys(tests[slug]).forEach(function(idx){
             var test_aml = tests[slug][idx].toString('utf8');
-            // Brackets in the "result" value need to be replaced with double
-            // brackets before parsing, since inline comments aren't currently
-            // optional. Match only brackets within quotes.
-            test_aml = test_aml.replace(/^(test|result): (.*)$/gm, function(result) {
-              return result.replace(/\[([^\[\]\n\r]*)\]/g, "[[$1]]")
-            });
 
             try {
-              var parsed = load(test_aml);
+              var metadata = load(test_aml, {comments: false}),
+                  parsed   = load(test_aml);
 
               try {
                 // Strip out reserved keys
-                var message = parsed.test;
-                var expected_result = JSON.parse(parsed.result);
+                var message = metadata.test;
+                var expected_result = JSON.parse(metadata.result);
 
                 delete parsed['test'];
                 delete parsed['result'];

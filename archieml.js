@@ -8,7 +8,7 @@
 // The load function takes a string of text as its only argument.
 // It then proceeds to match the text to one of several regular expressions
 // which match patterns for different types of commands in AML.
-function load(input) {
+function load(input, options) {
   var nextLine = new RegExp('.*((\r|\n)+)');
   var startKey = new RegExp('^\\s*([A-Za-z0-9-_\.]+)[ \t\r]*:[ \t\r]*(.*(?:\n|\r|$))');
   var commandKey = new RegExp('^\\s*:[ \t\r]*(endskip|ignore|skip|end).*?(\n|\r|$)', 'i');
@@ -27,6 +27,9 @@ function load(input) {
       array = null,
       arrayType = null,
       arrayFirstKey = null;
+
+  var options = options || {};
+  if (typeof options.comments === 'undefined') options.comments = true;
 
   while (input) {
     // Inside the input stream loop, the `input` string is trimmed down as matches
@@ -170,8 +173,10 @@ function load(input) {
   }
 
   function formatValue(value, type) {
-    value = value.replace(/(?:^\\)?\[[^\[\]\n\r]*\](?!\])/mg, ""); // remove comments
-    value = value.replace(/\[\[([^\[\]\n\r]*)\]\]/g, "[$1]"); // [[]] => []
+    if (options.comments) {
+      value = value.replace(/(?:^\\)?\[[^\[\]\n\r]*\](?!\])/mg, ""); // remove comments
+      value = value.replace(/\[\[([^\[\]\n\r]*)\]\]/g, "[$1]"); // [[]] => []
+    }
 
     if (type == 'append') {
       // If we're appending to a multi-line string, escape special punctuation

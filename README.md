@@ -27,6 +27,18 @@ var parsed = archieml.load("key: value");
 >> {"key": "value"}
 ```
 
+### Parser options
+
+By default, the parser removes text inside \[single square brackets\], treating them as comments. This can be disabled by passing an options object as the second parameter in `load`:
+
+```
+archieml.load("key: value [comment]");
+>> {"key": "value"}
+
+archieml.load("key: value [comment]", {comments: false});
+>> {"key": "value [comment]"}
+```
+
 ### Using with Google Documents
 
 We use `archieml` at The New York Times to parse Google Documents containing AML. This requires a little upfront work to download the document and convert it into text that `archieml` can load.
