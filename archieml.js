@@ -139,6 +139,8 @@ function load(input) {
       if (scopeType === '{') {
         // Reset scope to global data object
         scope = data;
+        stackScope = undefined;
+        stack = [];
 
       } else if (scopeType === '[') {
         // Move up a level
