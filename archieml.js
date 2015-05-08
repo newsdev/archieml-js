@@ -29,7 +29,7 @@ function load(input, options) {
       arrayFirstKey = null;
 
   var options = options || {};
-  if (typeof options.comments === 'undefined') options.comments = true;
+  if (typeof options.comments === 'undefined') options.comments = false;
 
   while (input) {
     // Inside the input stream loop, the `input` string is trimmed down as matches
