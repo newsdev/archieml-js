@@ -27,6 +27,18 @@ var parsed = archieml.load("key: value");
 >> {"key": "value"}
 ```
 
+### Parser options
+
+Inline comments are now deprecated in ArchieML. They will continue to be supported until 1.0, but are now disabled by default. They can be enabled by passing an options object as the second parameter in `load`:
+
+```
+archieml.load("key: value [comment]");
+>> {"key": "value [comment]"}
+
+archieml.load("key: value [comment]", {comments: true});
+>> {"key": "value"}
+```
+
 ### Using with Google Documents
 
 We use `archieml` at The New York Times to parse Google Documents containing AML. This requires a little upfront work to download the document and convert it into text that `archieml` can load.
