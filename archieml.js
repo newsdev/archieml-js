@@ -28,7 +28,7 @@ function load(input, options) {
       isSkipping = false;
 
   var options = options || {};
-  if (typeof options.comments === 'undefined') options.comments = false;
+  if (options.comments !== true) options.comments = false;
 
   while (input) {
     // Inside the input stream loop, the `input` string is trimmed down as matches
