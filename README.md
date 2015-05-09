@@ -4,7 +4,7 @@ Parse Archie Markup Language (ArchieML) documents into JavaScript objects.
 
 Read about the ArchieML specification at [archieml.org](http://archieml.org).
 
-The current version is `v0.2.0`.
+The current version is `v0.3.0`.
 
 ## Installation
 
@@ -73,6 +73,7 @@ A full shared test suite is included from the [archieml.org](https://github.com/
 
 ## Changelog
 
+* `0.3.0` - Added support for nested arrays. Follows modifications in ArchieML [CR-20150509](http://archieml.org/spec/1.0/CR-20150509.html).
 * `0.2.0` - Arrays that are redefined now overwrite the previous definition. Skips within multi-line values break up the value. Follows modifications in ArchieML [CR-20150306](http://archieml.org/spec/1.0/CR-20150423.html).
 * `0.1.2` - More consistent handling of newlines. Fixes issue #4, around detecting the scope of multi-line values.
 * `0.1.1` - Fixes issue #1, removing comment backslashes.
