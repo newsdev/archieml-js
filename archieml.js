@@ -13,7 +13,7 @@ function load(input, options) {
   var startKey = new RegExp('^\\s*([A-Za-z0-9-_\.]+)[ \t\r]*:[ \t\r]*(.*(?:\n|\r|$))');
   var commandKey = new RegExp('^\\s*:[ \t\r]*(endskip|ignore|skip|end).*?(\n|\r|$)', 'i');
   var arrayElement = new RegExp('^\\s*\\*[ \t\r]*(.*(?:\n|\r|$))');
-  var scopePattern = new RegExp('^\\s*(\\[|\\{)[ \t\r]*([A-Za-z0-9-_\.]*)[ \t\r]*(?:\\]|\\}).*?(\n|\r|$)');
+  var scopePattern = new RegExp('^\\s*(\\[|\\{)[ \t\r]*([\+\.]*)[ \t\r]*([A-Za-z0-9-_\.]*)[ \t\r]*(?:\\]|\\}).*?(\n|\r|$)');
 
   var data = {},
       scope = data,
@@ -53,12 +53,12 @@ function load(input, options) {
     } else if (!isSkipping && scopePattern.exec(input)) {
       match = scopePattern.exec(input);
 
-      parseScope(match[1], match[2]);
+      parseScope(match[1], match[2], match[3]);
 
     } else if (nextLine.exec(input)) {
       match = nextLine.exec(input);
 
-      bufferString += input.substring(0, match[0].length);
+      parseText(match[0]);
 
     } else {
       // End of document reached
@@ -78,11 +78,12 @@ function load(input, options) {
 
     incrementArrayElement(key);
 
+    if (stackScope && stackScope.flags.indexOf('+') > -1) key = 'content';
+
     bufferKey = key;
     bufferString = restOfLine;
 
     flushBufferInto(key, {replace: true});
-    bufferKey = key;
   }
 
   function parseArrayElement(value) {
@@ -94,7 +95,6 @@ function load(input, options) {
     bufferKey = stackScope.array;
     bufferString = value;
     flushBufferInto(stackScope.array, {replace: true});
-    bufferKey = stackScope.array;
   }
 
   function parseCommandKey(command) {
@@ -126,7 +126,7 @@ function load(input, options) {
     flushBuffer();
   }
 
-  function parseScope(scopeType, scopeKey) {
+  function parseScope(scopeType, flags, scopeKey) {
     // Throughout the parsing, `scope` refers to one of the following:
     //   * `data`
     //   * an object - one level within `data` - when we're within a {scope} block
@@ -153,14 +153,11 @@ function load(input, options) {
       }
 
     } else if (scopeType === '[' || scopeType === '{') {
-      // Drill down into the appropriate scope, in case the key uses
-      // dot.notation.
-
       var nesting = false;
       var keyScope = data;
 
-      if (scopeKey.indexOf('.') == 0) {
-        scopeKey = scopeKey.substring(1);
+      // If the flags include ".", drill down into the appropriate scope.
+      if (flags.indexOf('.') > -1) {
         incrementArrayElement(scopeKey);
         nesting = true;
         if (stackScope) keyScope = scope;
@@ -170,12 +167,15 @@ function load(input, options) {
       for (var i=0; i<keyBits.length - 1; i++) {
         keyScope = keyScope[keyBits[i]] = keyScope[keyBits[i]] || {};
       }
+      var lastBit = keyBits[keyBits.length - 1];
+      if (stackScope && stackScope.flags.indexOf('+') > -1) lastBit = 'content';
 
       if (scopeType == '[') {
         var stackScopeItem = {
-          array: keyScope[keyBits[keyBits.length - 1]] = [],
+          array: keyScope[lastBit] = [],
           arrayType: null,
           arrayFirstKey: null,
+          flags: flags,
           scope: scope
         };
 
@@ -187,8 +187,16 @@ function load(input, options) {
         stackScope = stack[stack.length - 1];
 
       } else if (scopeType == '{') {
-        scope = keyScope[keyBits[keyBits.length - 1]] = (typeof keyScope[keyBits[keyBits.length - 1]] === 'object') ? keyScope[keyBits[keyBits.length - 1]] : {};
+        scope = keyScope[lastBit] = (typeof keyScope[lastBit] === 'object') ? keyScope[lastBit] : {};
       }
+    }
+  }
+
+  function parseText(text) {
+    if (stackScope && stackScope.flags.indexOf('+') > -1) {
+      stackScope.array.push({"key": "text", "content": text.replace(new RegExp('\\s*$'), '')});
+    } else {
+      bufferString += input.substring(0, text.length);
     }
   }
 
@@ -204,7 +212,12 @@ function load(input, options) {
 
       // arrayFirstKey may be either another key, or null
       if (stackScope.arrayFirstKey === null || stackScope.arrayFirstKey === key) stackScope.array.push(scope = {});
-      stackScope.arrayFirstKey = stackScope.arrayFirstKey || key;
+      if (stackScope.flags.indexOf('+') > -1) {
+        scope.key = key
+        key = 'content';
+      } else {
+        stackScope.arrayFirstKey = stackScope.arrayFirstKey || key;
+      }
     }
   }
 
@@ -233,11 +246,13 @@ function load(input, options) {
 
   function flushBufferInto(key, options) {
     options = options || {};
+    var existingBufferKey = bufferKey;
     var value = flushBuffer();
 
     if (options.replace) {
       value = formatValue(value, 'replace').replace(new RegExp('^\\s*'), '');
       bufferString = (new RegExp('\\s*$')).exec(value)[0];
+      bufferKey = existingBufferKey
     } else {
       value = formatValue(value, 'append');
     }
