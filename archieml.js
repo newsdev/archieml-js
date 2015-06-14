@@ -9,11 +9,14 @@
 // It then proceeds to match the text to one of several regular expressions
 // which match patterns for different types of commands in AML.
 function load(input, options) {
+  var whitespacePattern = '\\u0000\\u0009\\u000A\\u000B\\u000C\\u000D\\u0020\\uFEFF';
+  var slugBlacklist = whitespacePattern + '\\u005B\\u005C\\u005D\\u007B\\u007C\\u007D\\u007E\\u003A\\u005E\\u0060';
+
   var nextLine = new RegExp('.*((\r|\n)+)');
-  var startKey = new RegExp('^\\s*([A-Za-z0-9-_\.]+)[ \t\r]*:[ \t\r]*(.*(?:\n|\r|$))');
+  var startKey = new RegExp('^\\s*([^' + slugBlacklist + ']+)[ \t\r]*:[ \t\r]*(.*(?:\n|\r|$))');
   var commandKey = new RegExp('^\\s*:[ \t\r]*(endskip|ignore|skip|end).*?(\n|\r|$)', 'i');
   var arrayElement = new RegExp('^\\s*\\*[ \t\r]*(.*(?:\n|\r|$))');
-  var scopePattern = new RegExp('^\\s*(\\[|\\{)[ \t\r]*([A-Za-z0-9-_\.]*)[ \t\r]*(?:\\]|\\}).*?(\n|\r|$)');
+  var scopePattern = new RegExp('^\\s*(\\[|\\{)[ \t\r]*([^' + slugBlacklist + ']*)[ \t\r]*(?:\\]|\\}).*?(\n|\r|$)');
 
   var data = {},
       scope = data,
