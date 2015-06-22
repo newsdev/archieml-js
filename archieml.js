@@ -1,9 +1,10 @@
-'use strict';
+
 
 // Structure inspired by John Resig's HTML parser
 // http://ejohn.org/blog/pure-javascript-html-parser/
 
 (function() {
+  'use strict';
 
 // The load function takes a string of text as its only argument.
 // It then proceeds to match the text to one of several regular expressions
