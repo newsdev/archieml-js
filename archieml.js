@@ -142,7 +142,7 @@ function load(input, options) {
 
       // Move up a level
       var lastStackItem = stack.pop();
-      scope = (lastStackItem ? lastStackItem.scope : data) || data
+      scope = (lastStackItem ? lastStackItem.scope : data) || data;
       stackScope = stack[stack.length - 1];
 
     } else if (scopeType === '[' || scopeType === '{') {
@@ -217,7 +217,7 @@ function load(input, options) {
       // arrayFirstKey may be either another key, or null
       if (stackScope.arrayFirstKey === null || stackScope.arrayFirstKey === key) stackScope.array.push(scope = {});
       if (stackScope.flags.indexOf('+') > -1) {
-        scope.type = key
+        scope.type = key;
       } else {
         stackScope.arrayFirstKey = stackScope.arrayFirstKey || key;
       }
@@ -254,7 +254,7 @@ function load(input, options) {
     if (options.replace) {
       value = formatValue(value, 'replace').replace(new RegExp('^\\s*'), '');
       bufferString = (new RegExp('\\s*$')).exec(value)[0];
-      bufferKey = existingBufferKey
+      bufferKey = existingBufferKey;
     } else {
       value = formatValue(value, 'append');
     }
@@ -301,5 +301,5 @@ if (typeof define === 'function' && define.amd) {
     return archieml;
   });
 }
-}.call(this))
+}.call(this));
 
