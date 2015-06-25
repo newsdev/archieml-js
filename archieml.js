@@ -28,7 +28,7 @@ function load(input, options) {
 
       isSkipping = false;
 
-  var options = options || {};
+  options = options || {};
   if (options.comments === undefined) options.comments = true;
 
   while (input) {
