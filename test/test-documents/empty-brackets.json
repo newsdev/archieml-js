@@ -1,0 +1,17 @@
+{
+  "days": [
+    {
+      "name": "Monday",
+      "tasks": [
+        "Clean dishes",
+        "Pick up room"
+      ]
+    },
+    {
+      "name": "Tuesday",
+      "tasks": [
+        "Buy milk"
+      ]
+    }
+  ]
+}

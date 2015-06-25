@@ -1,0 +1,13 @@
+{
+  "colors": {
+    "red": "#f00",
+    "green": "#0f0",
+    "blue": "#00f",
+    "key": "value"
+  },
+  "numbers": {
+    "one": "1",
+    "ten": "10",
+    "one-hundred": "100"
+  }
+}

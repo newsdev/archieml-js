@@ -1,0 +1,27 @@
+{
+  "events": [
+    {
+      "type": "header",
+      "value": "My Birthday"
+    },
+    {
+      "type": "date",
+      "value": "August 20th, 1990"
+    },
+    {
+      "type": "image",
+      "value": {
+        "src": "http://example.com/photo.png",
+        "alt": "Family Photo"
+      }
+    },
+    {
+      "type": "header",
+      "value": "High School Graduation"
+    },
+    {
+      "type": "date",
+      "value": "June 4th, 2008"
+    }
+  ]
+}

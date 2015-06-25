@@ -9,7 +9,7 @@ var tests = {};
 
 glob.sync(__dirname + '/test-documents/*.aml').forEach(function(f) {
 
-    var key = f.substring(f.lastIndexOf('/')+1, f.length-4), a,b;
+    var key = f.substring(f.lastIndexOf('/')+1, f.length-4).replace(/\-/g, ' ');
 
     tests[key] = {
         topic: function() { return archieml.load(fs.readFileSync(f, 'utf-8')); },

@@ -1,0 +1,12 @@
+{
+  "arrays": {
+    "complex": [
+      {
+        "key": "value\nmore value"
+      }
+    ],
+    "simple": [
+      "value\nmore value"
+    ]
+  }
+}

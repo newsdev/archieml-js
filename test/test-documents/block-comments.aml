@@ -1,0 +1,5 @@
+:skip
+  this: text
+  will: be
+  ignored
+:endskip

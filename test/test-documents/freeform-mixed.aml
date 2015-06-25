@@ -1,0 +1,12 @@
+[+events]
+header: My Birthday
+date: August 20th, 1990
+
+{.image}
+src: http://example.com/photo.png
+alt: Family Photo
+{}
+
+header: High School Graduation
+date: June 4th, 2008
+[]

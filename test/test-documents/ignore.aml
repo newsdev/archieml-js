@@ -1,0 +1,8 @@
+key: value
+:ignore
+
+[array]
+* Blah
+[]
+
+other-key: other value

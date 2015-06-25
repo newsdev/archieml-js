@@ -1,0 +1,12 @@
+{
+  "colors": {
+    "reds": {
+      "crimson": "#dc143c",
+      "darkred": "#8b0000"
+    },
+    "blues": {
+      "cornflowerblue": "#6495ed",
+      "darkblue": "#00008b"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+[arrays.complex]
+key: value
+more value
+:end
+
+[arrays.simple]
+* value
+more value
+:end

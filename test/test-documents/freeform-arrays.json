@@ -1,0 +1,32 @@
+{
+  "books": [
+    {
+      "type": "kicker",
+      "value": "Books you should read"
+    },
+    {
+      "type": "score",
+      "value": "★★★★★!!!"
+    },
+    {
+      "type": "title",
+      "value": "Wuthering Heights"
+    },
+    {
+      "type": "author",
+      "value": "Emily Brontë"
+    },
+    {
+      "type": "title",
+      "value": "Middlemarch"
+    },
+    {
+      "type": "author",
+      "value": "George Eliot"
+    },
+    {
+      "type": "score",
+      "value": "★★★★☆"
+    }
+  ]
+}

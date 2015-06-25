@@ -1,0 +1,4 @@
+key: value
+[escaping * is not necessary if we're not inside an array, but will still be removed]
+\* value
+:end

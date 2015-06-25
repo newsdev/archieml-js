@@ -1,0 +1,15 @@
+[days]
+* Sunday
+note: holiday!
+* Monday
+* Tuesday
+
+Whitespace is still fine around the '*'
+  *   Wednesday
+
+* Thursday
+
+Friday!
+* Friday
+* Saturday
+[]

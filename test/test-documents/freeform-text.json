@@ -1,0 +1,12 @@
+{
+  "text": [
+    {
+      "type": "text",
+      "value": "I can type words here..."
+    },
+    {
+      "type": "text",
+      "value": "And separate them into different paragraphs without tags."
+    }
+  ]
+}
