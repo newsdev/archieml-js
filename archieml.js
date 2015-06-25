@@ -20,7 +20,7 @@ function load(input, options) {
       scope = data,
 
       stack = [],
-      stackScope = undefined,
+      stackScope,
 
       bufferScope = null,
       bufferKey = null,
@@ -29,7 +29,7 @@ function load(input, options) {
       isSkipping = false;
 
   var options = options || {};
-  if (options.comments !== true) options.comments = false;
+  if (options.comments === undefined) options.comments = true;
 
   while (input) {
     // Inside the input stream loop, the `input` string is trimmed down as matches
@@ -226,8 +226,7 @@ function load(input, options) {
 
   function formatValue(value, type) {
     if (options.comments) {
-      value = value.replace(/(?:^\\)?\[[^\[\]\n\r]*\](?!\])/mg, ""); // remove comments
-      value = value.replace(/\[\[([^\[\]\n\r]*)\]\]/g, "[$1]"); // [[]] => []
+    	value = value.replace(/(?:\/\*(?:[\s\S]*?)\*\/)|(?:([\s;])+\/\/(?:.*)$)/gm, ''); // remove comments
     }
 
     if (type == 'append') {
