@@ -18,16 +18,18 @@
     "email": "michael.strickland@nytimes.com"
   },
   "devDependencies": {
-    "phantomjs": "1.9.11",
+    "glob": "^5.0.10",
     "nodeunit": "0.9.0",
-    "queue-async": "1.0.7"
+    "phantomjs": "1.9.11",
+    "queue-async": "1.0.7",
+    "vows": "^0.8.1"
   },
   "scripts": {
     "test": "node_modules/phantomjs/bin/phantomjs test/vendor/runner.js test/index.html?noglobals=true"
   },
   "repository": {
     "type": "git",
-    "url" : "http://github.com/newsdev/archieml-js.git"
+    "url": "http://github.com/newsdev/archieml-js.git"
   },
   "main": "archieml.js",
   "licenses": [
