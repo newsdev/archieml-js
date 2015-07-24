@@ -81,7 +81,7 @@ function load(input, options) {
 
     incrementArrayElement(key);
 
-    if (stackScope && stackScope.flags.indexOf('+') > -1) key = 'content';
+    if (stackScope && stackScope.flags.indexOf('+') > -1) key = 'value';
 
     bufferKey = key;
     bufferString = restOfLine;
@@ -153,7 +153,7 @@ function load(input, options) {
 
       // If the flags include ".", drill down into the appropriate scope.
       if (flags.indexOf('.') > -1) {
-        incrementArrayElement(scopeKey);
+        incrementArrayElement(scopeKey, flags);
         nesting = true;
         if (stackScope) keyScope = scope;
       }
@@ -163,7 +163,12 @@ function load(input, options) {
         keyScope = keyScope[keyBits[i]] = keyScope[keyBits[i]] || {};
       }
       var lastBit = keyBits[keyBits.length - 1];
-      if (stackScope && stackScope.flags.indexOf('+') > -1 && scopeType === '[') lastBit = 'content';
+
+      // Content of nested scopes within a freeform should be stored under "value."
+      if (stackScope && stackScope.flags.indexOf('+') > -1 && flags.indexOf('.') > -1) {
+        if (scopeType === '[') lastBit = 'value';
+        else if (scopeType === '{') scope = scope.value = {};
+      }
 
       var stackScopeItem = {
         array: null,
@@ -195,7 +200,7 @@ function load(input, options) {
 
   function parseText(text) {
     if (stackScope && stackScope.flags.indexOf('+') > -1 && text.match(/[^\n\r\s]/)) {
-      stackScope.array.push({"key": "text", "content": text.replace(/(^\s*)|(\s*$)/g, '')});
+      stackScope.array.push({"type": "text", "value": text.replace(/(^\s*)|(\s*$)/g, '')});
     } else {
       bufferString += input.substring(0, text.length);
     }
@@ -214,8 +219,7 @@ function load(input, options) {
       // arrayFirstKey may be either another key, or null
       if (stackScope.arrayFirstKey === null || stackScope.arrayFirstKey === key) stackScope.array.push(scope = {});
       if (stackScope.flags.indexOf('+') > -1) {
-        scope.key = key
-        key = 'content';
+        scope.type = key
       } else {
         stackScope.arrayFirstKey = stackScope.arrayFirstKey || key;
       }
