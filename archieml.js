@@ -302,5 +302,5 @@ if (typeof define === 'function' && define.amd) {
     return archieml;
   });
 }
-}.call(this))
+}.call(this));
 
