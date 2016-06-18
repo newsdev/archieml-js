@@ -23,7 +23,7 @@
     "queue-async": "1.0.7"
   },
   "scripts": {
-    "test": "node_modules/phantomjs/bin/phantomjs test/vendor/runner.js test/index.html?noglobals=true"
+    "test": "nodeunit"
   },
   "repository": {
     "type": "git",
