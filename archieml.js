@@ -157,17 +157,30 @@ function load(input, options) {
         incrementArrayElement(scopeKey, flags);
         nesting = true;
         if (stackScope) keyScope = scope;
+
+      // Otherwise, make sure we reset to the global scope
+      } else {
+        scope = data;
+        stack = [];
       }
 
-      var keyBits = scopeKey.split('.');
-      for (var i=0; i<keyBits.length - 1; i++) {
-        keyScope = keyScope[keyBits[i]] = keyScope[keyBits[i]] || {};
+      // Within freeforms, the `type` of nested objects and arrays is taken
+      // verbatim from the `keyScope`.
+      if (stackScope && stackScope.flags.indexOf('+') > -1) {
+        var parsedScopeKey = scopeKey;
+
+      // Outside of freeforms, dot-notation interpreted as nested data.
+      } else {
+        var keyBits = scopeKey.split('.');
+        for (var i=0; i<keyBits.length - 1; i++) {
+          keyScope = keyScope[keyBits[i]] = keyScope[keyBits[i]] || {};
+        }
+        var parsedScopeKey = keyBits[keyBits.length - 1];
       }
-      var lastBit = keyBits[keyBits.length - 1];
 
       // Content of nested scopes within a freeform should be stored under "value."
       if (stackScope && stackScope.flags.indexOf('+') > -1 && flags.indexOf('.') > -1) {
-        if (scopeType === '[') lastBit = 'value';
+        if (scopeType === '[') parsedScopeKey = 'value';
         else if (scopeType === '{') scope = scope.value = {};
       }
 
@@ -179,7 +192,7 @@ function load(input, options) {
         scope: scope
       };
       if (scopeType == '[') {
-        stackScopeItem.array = keyScope[lastBit] = [];
+        stackScopeItem.array = keyScope[parsedScopeKey] = [];
         if (nesting) {
           stack.push(stackScopeItem);
         } else {
@@ -191,7 +204,7 @@ function load(input, options) {
         if (nesting) {
           stack.push(stackScopeItem);
         } else {
-          scope = keyScope[lastBit] = (typeof keyScope[lastBit] === 'object') ? keyScope[lastBit] : {};
+          scope = keyScope[parsedScopeKey] = (typeof keyScope[parsedScopeKey] === 'object') ? keyScope[parsedScopeKey] : {};
           stack = [stackScopeItem];
         }
         stackScope = stack[stack.length - 1];
@@ -306,4 +319,3 @@ if (typeof define === 'function' && define.amd) {
   });
 }
 }.call(this))
-
