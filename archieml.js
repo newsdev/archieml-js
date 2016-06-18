@@ -154,6 +154,11 @@ function load(input, options) {
         incrementArrayElement(scopeKey, flags);
         nesting = true;
         if (stackScope) keyScope = scope;
+
+      // Otherwise, make sure we reset to the global scope
+      } else {
+        scope = data;
+        stack = [];
       }
 
       var keyBits = scopeKey.split('.');
