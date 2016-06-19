@@ -2,6 +2,12 @@
   var archieml = require('../archieml');
   var load = archieml.load;
 
+  exports.freeformTests = function(test) {
+    test.deepEqual(load('[+freeform]\nText'), {freeform: [{type: "text", "value": "Text"}]}, 'Text is added to freeforms when no trailing newline is present');
+
+    test.done();
+  };
+
   // Deprecated
   exports.loaderTests = function(test) {
     test.equal(load('key: value [comment] value').key, 'value [comment] value', 'comments are not removed when no comments option is specified');

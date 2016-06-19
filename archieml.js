@@ -66,6 +66,7 @@ function load(input, options) {
 
     } else {
       // End of document reached
+      parseText(input);
       input = '';
     }
 
