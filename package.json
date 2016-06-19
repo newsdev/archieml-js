@@ -1,6 +1,6 @@
 {
   "name": "archieml",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "JavaScript parser for the Archie Markup Language (ArchieML)",
   "homepage": "http://archieml.org",
   "keywords": [
