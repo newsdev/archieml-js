@@ -10,8 +10,8 @@
 // It then proceeds to match the text to one of several regular expressions
 // which match patterns for different types of commands in AML.
 function load(input, options) {
-  var whitespacePattern = '\\u0000\\u0009\\u000A\\u000B\\u000C\\u000D\\u0020\\uFEFF';
-  var slugBlacklist = whitespacePattern + '\\u005B\\u005C\\u005D\\u007B\\u007C\\u007D\\u007E\\u003A\\u005E\\u0060';
+  var whitespacePattern = '\\u0000\\u0009\\u000A\\u000B\\u000C\\u000D\\u0020\\u00A0\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200A\\u200B\\u2028\\u2029\\u202F\\u205F\\u3000\\uFEFF';
+  var slugBlacklist = whitespacePattern + '\\u005B\\u005C\\u005D\\u007B\\u007D\\u003A';
 
   var nextLine = new RegExp('.*((\r|\n)+)');
   var startKey = new RegExp('^\\s*([^' + slugBlacklist + ']+)[ \t\r]*:[ \t\r]*(.*(?:\n|\r|$))');
