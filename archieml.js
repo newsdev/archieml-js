@@ -44,12 +44,15 @@ function load(input, options) {
 
       parseCommandKey(match[1].toLowerCase());
 
-    } else if (!isSkipping && startKey.exec(input) && (!stackScope || stackScope.arrayType !== 'simple')) {
+    } else if (!isSkipping && startKey.exec(input) &&
+        (!stackScope || stackScope.arrayType !== 'simple')) {
       match = startKey.exec(input);
 
       parseStartKey(match[1], match[2] || '');
 
-    } else if (!isSkipping && arrayElement.exec(input) && stackScope && stackScope.arrayType !== 'complex') {
+    } else if (!isSkipping && arrayElement.exec(input) && stackScope && stackScope.array &&
+        (stackScope.arrayType !== 'complex' && stackScope.arrayType !== 'freeform') &&
+        stackScope.flags.indexOf('+') < 0) {
       match = arrayElement.exec(input);
 
       parseArrayElement(match[1]);
@@ -194,6 +197,7 @@ function load(input, options) {
       };
       if (scopeType == '[') {
         stackScopeItem.array = keyScope[parsedScopeKey] = [];
+        if (flags.indexOf('+') > -1) stackScopeItem.arrayType = 'freeform';
         if (nesting) {
           stack.push(stackScopeItem);
         } else {
