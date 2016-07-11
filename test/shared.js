@@ -58,14 +58,14 @@
                 console.log('JSON parsing error', slug + '.' + idx);
                 console.log(parsed.result);
                 console.log(e);
-                test.ok(false, 'JSON parsing error: ' + slug + '.' + idx);
+                test.ok(false, e);
               }
 
             } catch(e) {
               console.log('AML parsing error', slug + '.' + idx);
               console.log(test_aml);
               console.log(e);
-              test.ok(false, 'AML parsing error: ' + slug + '.' + idx);
+              test.ok(false, e);
             }
 
           });
