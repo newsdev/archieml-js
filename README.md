@@ -4,7 +4,7 @@ Parse Archie Markup Language (ArchieML) documents into JavaScript objects.
 
 Read about the ArchieML specification at [archieml.org](http://archieml.org).
 
-The current version is `v0.4.1`.
+The current version is `v0.4.2`.
 
 ## Installation
 
@@ -73,6 +73,7 @@ A full shared test suite is included from the [archieml.org](https://github.com/
 
 ## Changelog
 
+* `0.4.2` - Fixes bug #19.
 * `0.4.1` - Fixes bug #21.
 * `0.4.0` - Updates to how dot-notation is handled in freeform array, unicode key support.
 * `0.3.1` - Added support for freeform arrays.
