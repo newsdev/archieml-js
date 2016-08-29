@@ -30,6 +30,7 @@
     "url" : "http://github.com/newsdev/archieml-js.git"
   },
   "main": "archieml.js",
+  "typings": "./archieml.d.ts",
   "licenses": [
     {
       "type": "Apache-2.0",
