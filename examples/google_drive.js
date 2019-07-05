@@ -11,7 +11,7 @@ var htmlparser = require('htmlparser2');
 var Entities = require('html-entities').AllHtmlEntities;
 
 // Grab google packages and the drive api
-var google = require('googleapis');
+var { google } = require('googleapis');
 var drive = google.drive('v2');
 
 // Set up auth
