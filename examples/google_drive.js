@@ -59,8 +59,8 @@ app.get('/oauth2callback', function (req, res) {
         // so if you want to preserve them, we have to export the document in a
         // different format, `text/html`.
 
-        export_link = doc.exportLinks['text/html'];
-        oauth2Client._makeRequest({method: "GET", uri: export_link}, function(err, body) {
+        export_link = doc.data.exportLinks['text/html'];
+        oauth2Client.request({method: "GET", url: export_link}, function(err, body) {
 
           var handler = new htmlparser.DomHandler(function(error, dom) {
             var tagHandlers = {
@@ -126,7 +126,7 @@ app.get('/oauth2callback', function (req, res) {
 
           var parser = new htmlparser.Parser(handler);
 
-          parser.write(body);
+          parser.write(body.data);
           parser.done();
         });
       });
