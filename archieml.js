@@ -182,12 +182,6 @@ function load(input, options) {
         var parsedScopeKey = keyBits[keyBits.length - 1];
       }
 
-      // Content of nested scopes within a freeform should be stored under "value."
-      if (stackScope && stackScope.flags.indexOf('+') > -1 && flags.indexOf('.') > -1) {
-        if (scopeType === '[') parsedScopeKey = 'value';
-        else if (scopeType === '{') scope = scope.value = {};
-      }
-
       var stackScopeItem = {
         array: null,
         arrayType: null,
@@ -195,7 +189,12 @@ function load(input, options) {
         flags: flags,
         scope: scope
       };
+      
+      // Content of nested scopes within a freeform should be stored under "value."
+      const isNestedFreeform = stackScope && stackScope.flags.indexOf('+') > -1 && flags.indexOf('.') > -1;
+
       if (scopeType == '[') {
+        if (isNestedFreeform) parsedScopeKey = 'value'
         stackScopeItem.array = keyScope[parsedScopeKey] = [];
         if (flags.indexOf('+') > -1) stackScopeItem.arrayType = 'freeform';
         if (nesting) {
@@ -207,6 +206,8 @@ function load(input, options) {
 
       } else if (scopeType == '{') {
         if (nesting) {
+          if (isNestedFreeform) scope = scope.value = {};
+          else scope = keyScope[parsedScopeKey] = keyScope = {};
           stack.push(stackScopeItem);
         } else {
           scope = keyScope[parsedScopeKey] = (typeof keyScope[parsedScopeKey] === 'object') ? keyScope[parsedScopeKey] : {};
