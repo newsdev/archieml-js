@@ -191,7 +191,7 @@ function load(input, options) {
       };
       
       // Content of nested scopes within a freeform should be stored under "value."
-      const isNestedFreeform = stackScope && stackScope.flags.indexOf('+') > -1 && flags.indexOf('.') > -1;
+      var isNestedFreeform = stackScope && stackScope.flags.indexOf('+') > -1 && flags.indexOf('.') > -1;
 
       if (scopeType == '[') {
         if (isNestedFreeform) parsedScopeKey = 'value'
