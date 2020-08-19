@@ -73,7 +73,7 @@ A full shared test suite is included from the [archieml.org](https://github.com/
 
 ## Changelog
 
-* `0.5.0` - Added support for .
+* `0.5.0` - Added support for implicit object nesting.
 * `0.4.2` - Fixes bug #19.
 * `0.4.1` - Fixes bug #21.
 * `0.4.0` - Updates to how dot-notation is handled in freeform array, unicode key support.
