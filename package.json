@@ -1,6 +1,6 @@
 {
   "name": "archieml",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "JavaScript parser for the Archie Markup Language (ArchieML)",
   "homepage": "http://archieml.org",
   "keywords": [
@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url" : "http://github.com/newsdev/archieml-js.git"
+    "url": "http://github.com/newsdev/archieml-js.git"
   },
   "main": "archieml.js",
   "licenses": [
