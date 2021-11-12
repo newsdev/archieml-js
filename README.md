@@ -69,7 +69,7 @@ You can use a test document to start that's public to everyone. It will ask you 
 
 ## Tests
 
-A full shared test suite is included from the [archieml.org](https://github.com/newsdev/archieml.org) repository, under `/test`. After running `npm install`, run `nodeunit` to execute the tests.
+A full shared test suite is included from the [archieml.org](https://github.com/newsdev/archieml.org) repository, under `/test`. After running `npm install`, initialize the shared test submodules (`git submodule init && git submodule update`) and  `nodeunit` to execute the tests.
 
 ## Changelog
 
